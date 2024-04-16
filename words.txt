@@ -696,7 +696,6 @@ decline
 decrease
 deep
 deeply
-deer
 defeat
 defend
 defendant
