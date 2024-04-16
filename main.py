@@ -8,33 +8,38 @@ import requests
 
 def getWord():
     global randomword
-    wordslist = open("words.txt", 'r')
-    word = []
-    for c in wordslist:
-        word.append(c)
-    randomword = word[random.randint(0, len(word))]
+    with open("words.txt", 'r') as wordlist:
+        words = []
+        for c in wordlist:
+            words.append(c)
+    randomword = words[random.randint(0, len(words))]
     print(randomword)
     
 
 
 def getWordEasy():
     global randomword
-    wordslist = open("wordseasier.txt", "r")
-    word = []
-    for c in wordslist:
-        word.append(c)
-    randomword = word[random.randint(0, len(word))]
-    
+    with open("wordseasier.txt", "r") as wordlist:
+        words = []
+        for c in wordlist:
+            words.append(c)
+    randomword = words[random.randint(0, len(words))]
+    print(randomword)
 
 
 def defineWord():
-    website = BeautifulSoup(requests.get("https://dictionary.com/browse/" + "radio").text, features="lxml")
+    website = BeautifulSoup(requests.get("https://dictionary.com/browse/" + randomword).text, features="lxml")
     definition = str(website.p.get_text())
-    if ":" in definition:
-        definition = (definition[0:(definition.index(":"))])
-        print(definition)
-    else: print(definition)
-    
-getWord()
-defineWord()
+    if definition == "":
+        definition = (website.find_all("p")[1])
+        definition = definition.get_text()
+        if ":" in definition:
+            print(definition[0:definition.index(":")])
+    else: 
+        if ":" in definition:
+            print(definition[0:definition.index(":")])
+        else: print(definition)
+            
 
+getWordEasy()
+defineWord()
