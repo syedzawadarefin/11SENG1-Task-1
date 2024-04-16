@@ -14,14 +14,27 @@ def getWord():
         word.append(c)
     randomword = word[random.randint(0, len(word))]
     print(randomword)
+    
+
+
+def getWordEasy():
+    global randomword
+    wordslist = open("wordseasier.txt", "r")
+    word = []
+    for c in wordslist:
+        word.append(c)
+    randomword = word[random.randint(0, len(word))]
+    
+
 
 def defineWord():
-    website = BeautifulSoup(requests.get("https://dictionary.com/browse/" + randomword).text, features="lxml")
+    website = BeautifulSoup(requests.get("https://dictionary.com/browse/" + "radio").text, features="lxml")
     definition = str(website.p.get_text())
-    index = definition.index(":")
-    print(definition[0:(index)])
-
+    if ":" in definition:
+        definition = (definition[0:(definition.index(":"))])
+        print(definition)
+    else: print(definition)
+    
 getWord()
 defineWord()
-
 
