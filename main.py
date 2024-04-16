@@ -2,6 +2,7 @@
 # spelling bee 
 # word meanings 
 
+import customtkinter as tk
 import random
 from bs4 import BeautifulSoup
 import requests
@@ -40,6 +41,4 @@ def defineWord():
             print(definition[0:definition.index(":")])
         else: print(definition)
             
-
-getWordEasy()
-defineWord()
+            
