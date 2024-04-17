@@ -41,65 +41,35 @@ class Words():
                 return (definition[0:definition.index(":")])
             else: return definition
 
-class answerSpace(tk.CTkFrame):
+
+class sidebarMenu(tk.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-
-        self.label = tk.CTkLabel(self, text="Equation")
-        self.label.grid(row=0, column=0, pady=10, padx=10,)
-
-
-class buttonSpace(tk.CTkFrame):
-    def __init__(self, master):
-        super().__init__(master)
-        self.grid_columnconfigure((0,1,2,3), weight=1)
-        self.grid_rowconfigure((0,1,2,3), weight=1)
-
-        self.seven = tk.CTkButton(self, text="7")
-        self.seven.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
-        self.eight = tk.CTkButton(self, text="8")
-        self.eight.grid(row=0, column=1, sticky="nsew", padx=10, pady=10)
-        self.nine = tk.CTkButton(self, text="9")
-        self.nine.grid(row=0, column=2, sticky="nsew", padx=10, pady=10)
-        self.divide = tk.CTkButton(self, text="DIVIDE")
-        self.divide.grid(row=0, column=3, sticky="nsew", padx=10, pady=10)
-        self.four = tk.CTkButton(self, text="4")
-        self.four.grid(row=1, column=0, sticky="nsew", padx=10, pady=10)
-        self.five = tk.CTkButton(self, text="5")
-        self.five.grid(row=1, column=1, sticky="nsew", padx=10, pady=10)
-        self.six = tk.CTkButton(self, text="6")
-        self.six.grid(row=1, column=2, sticky="nsew", padx=10, pady=10)
-        self.multiply = tk.CTkButton(self, text="MULTIPLY")
-        self.multiply.grid(row=1, column=3, sticky="nsew", padx=10, pady=10)
-        self.one = tk.CTkButton(self, text="1")
-        self.one.grid(row=2, column=0, sticky="nsew", padx=10, pady=10)
-        self.two = tk.CTkButton(self, text="2")
-        self.two.grid(row=2, column=1, sticky="nsew", padx=10, pady=10)
-        self.three = tk.CTkButton(self, text="3")
-        self.three.grid(row=2, column=2, sticky="nsew", padx=10, pady=10)
-        self.add = tk.CTkButton(self, text="ADD")
-        self.add.grid(row=2, column=3, sticky="nsew", padx=10, pady=10)
-        self.zero = tk.CTkButton(self, text="0")
-        self.zero.grid(row=3, column=0, sticky="nsew", padx=10, pady=10)
-        self.answer = tk.CTkButton(self, text="=")
-        self.answer.grid(row=3, column=2, sticky="nsew", padx=10, pady=10)
-        self.subtract = tk.CTkButton(self, text="SUBTRACT")
-        self.subtract.grid(row=3, column=3, sticky="nsew", padx=10, pady=10)
+        self.grid_rowconfigure((4), weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.homebutton = tk.CTkButton(self, text='Home')
+        self.homebutton.grid(padx=10, pady=5, row=0, column=0, sticky="new")
+        self.memorybutton = tk.CTkButton(self, text='Memory Game')
+        self.memorybutton.grid(padx=10, pady=5, row=1, column=0, sticky="new")
+        self.spellingbee = tk.CTkButton(self, text='Spelling Bee')
+        self.spellingbee.grid(padx=10,row=2, pady=5, column=0, sticky="new")
+        self.meaningsbutton = tk.CTkButton(self, text='Meanings Game')
+        self.meaningsbutton.grid(padx=10,row=3, pady=5, column=0, sticky="ew")
+        self.settings = tk.CTkButton(self, text='Settings')
+        self.settings.grid(padx=10, pady=10, row=4, column=0, sticky="sew")
         
 class App(tk.CTk):
     def __init__(self):
         super().__init__()
 
         self.title("Fun Puzzles")
-        self.geometry("700x900")
-        self.grid_columnconfigure((0), weight=1)
-        self.grid_rowconfigure((0,1,2,3), weight=1)
+        self.geometry("1000x700")
+        self.grid_columnconfigure((0,1,2,3), weight=1)
+        self.grid_rowconfigure((0), weight=1)
 
-        self.answerSpace = answerSpace(self)
-        self.answerSpace.grid(row=0, column=0, pady=20,padx=20, sticky="nsew", rowspan=1)
+        self.sidebarMenu = sidebarMenu(self)
+        self.sidebarMenu.grid(column=0, row=0, sticky="nsw")
 
-        self.buttonSpace = buttonSpace(self)
-        self.buttonSpace.grid(row=1, column=0, padx=20, pady=(0,20), sticky="nsew", rowspan=3)
 
 
 app = App()
