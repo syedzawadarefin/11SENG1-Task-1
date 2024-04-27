@@ -35,7 +35,6 @@ actor
 actress
 actual
 actually
-ad
 adapt
 add
 addition
@@ -66,7 +65,6 @@ affect
 afford
 afraid
 African
-African-American
 after
 afternoon
 again
@@ -80,11 +78,9 @@ ago
 agree
 agreement
 agricultural
-ah
 ahead
 aid
 aide
-AIDS
 aim
 air
 aircraft
@@ -106,7 +102,6 @@ alter
 alternative
 although
 always
-AM
 amazing
 American
 among
@@ -152,7 +147,6 @@ appropriate
 approval
 approve
 approximately
-Arab
 architect
 area
 argue
@@ -409,7 +403,6 @@ cell
 center
 central
 century
-CEO
 ceremony
 certain
 certainly
@@ -796,7 +789,6 @@ diversity
 divide
 division
 divorce
-DNA
 do
 doctor
 document
@@ -873,7 +865,6 @@ eliminate
 elite
 else
 elsewhere
-e-mail
 embrace
 emerge
 emergency
@@ -1422,7 +1413,6 @@ issue
 it
 Italian
 item
-its
 itself
 jacket
 jail
@@ -1547,7 +1537,6 @@ locate
 location
 lock
 long
-long-term
 look
 loose
 lose
@@ -1656,7 +1645,6 @@ mission
 mistake
 mix
 mixture
-mm-hmm
 mode
 model
 moderate
@@ -1687,9 +1675,6 @@ mouth
 move
 movement
 movie
-Mr
-Mrs
-Ms
 much
 multiple
 murder
@@ -1795,7 +1780,6 @@ official
 often
 oh
 oil
-ok
 okay
 old
 Olympic
@@ -1889,7 +1873,6 @@ pattern
 pause
 pay
 payment
-PC
 peace
 peak
 peer
@@ -1955,7 +1938,6 @@ pleasure
 plenty
 plot
 plus
-PM
 pocket
 poem
 poet
@@ -2416,7 +2398,6 @@ sister
 sit
 site
 situation
-
 size
 ski
 skill
@@ -2440,7 +2421,6 @@ smooth
 snap
 snow
 so
-so-called
 soccer
 social
 society
@@ -2683,7 +2663,6 @@ thin
 thing
 think
 thinking
-
 this
 those
 though
@@ -2772,7 +2751,6 @@ try
 tube
 tunnel
 turn
-TV
 twice
 twin
 type
@@ -2857,8 +2835,6 @@ voice
 volume
 volunteer
 vote
-voter
-vs
 vulnerable
 wage
 wait
@@ -2974,4 +2950,7 @@ your
 yours
 yourself
 youth
+Zawad
+zany
+zebra
 zone
