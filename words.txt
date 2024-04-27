@@ -666,6 +666,7 @@ damage
 dance
 danger
 dangerous
+Daniyal
 dare
 dark
 darkness
@@ -1645,6 +1646,7 @@ mission
 mistake
 mix
 mixture
+Mohammad
 mode
 model
 moderate
@@ -2151,11 +2153,12 @@ regardless
 regime
 region
 regional
-register
+registerlone 
 regular
 regularly
 regulate
 regulation
+Rehan
 reinforce
 reject
 relate
