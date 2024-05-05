@@ -31,9 +31,14 @@ def highscore():
         sbscore = scores["scores"][0]["spellingbee"]
 highscore()
 
+def playAudio():
+    audio = gtts.gTTS(text="boat", slow=False)
+    audio.save("audio.mp3")
+    playsound.playsound("audio.mp3")
 
+# Spelling bee Pregame
 def SpellingbeePre():
-
+    # Spelling bee Ingame
     def SpellingBee():
         spelling.pack_forget()
         start.pack_forget()
@@ -47,8 +52,29 @@ def SpellingbeePre():
                                    height = 300,
                                    bg_color=bg,
                                    fg_color=fg,
-                                   hover_color=hover)
-        audiobutton.pack(pady=100)
+                                   hover_color=hover,
+                                   command = playAudio)
+        audiobutton.pack(pady=(100,80))
+
+        textbox = tk.CTkEntry(root,
+                              width = 700,
+                              height = 50,
+                              corner_radius=10,
+                              bg_color=bg)
+        textbox.pack()
+
+        answerget = tk.CTkButton(root,
+                              text='Check',
+                              font=fontbtn,
+                              bg_color=bg,
+                              fg_color=fg,
+                              hover_color=hover,
+                              width = 200,
+                              height=50)
+        answerget.pack(pady=30)
+
+        textbox.get()
+
 
     introlabel.place_forget()
     spellingbtn.pack_forget()
@@ -88,6 +114,8 @@ def SpellingbeePre():
     highscore.configure(text=f"High Score: {sbscore}")
 
 
+
+# Home Page
 introlabel = tk.CTkLabel(root, 
                             text="English Games",
                             font=(fontlabel),

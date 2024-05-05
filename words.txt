@@ -1240,7 +1240,7 @@ her
 here
 heritage
 hero
-herself
+herapp
 hey
 hi
 hide
@@ -1250,7 +1250,7 @@ highly
 highway
 hill
 him
-himself
+himapp
 hip
 hire
 his
@@ -1414,7 +1414,7 @@ issue
 it
 Italian
 item
-itself
+itapp
 jacket
 jail
 Japanese
@@ -1689,7 +1689,7 @@ Muslim
 must
 mutual
 my
-myself
+myapp
 mystery
 myth
 naked
@@ -2315,7 +2315,7 @@ segment
 seize
 select
 selection
-self
+app
 sell
 Senate
 senator
@@ -2951,7 +2951,7 @@ you
 young
 your
 yours
-yourself
+yourapp
 youth
 Zawad
 zany
