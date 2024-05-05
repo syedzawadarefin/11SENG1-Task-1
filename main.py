@@ -5,6 +5,7 @@ import requests
 import gtts
 import playsound
 import json
+from PIL import Image, ImageTk
 
 
 root = tk.CTk()
@@ -30,7 +31,25 @@ def highscore():
         sbscore = scores["scores"][0]["spellingbee"]
 highscore()
 
+
 def SpellingbeePre():
+
+    def SpellingBee():
+        spelling.pack_forget()
+        start.pack_forget()
+        highscore.pack_forget()
+
+        audioimage = ImageTk.PhotoImage(Image.open("audiobutton.png"))
+        audiobutton = tk.CTkButton(root,
+                                   image=audioimage,
+                                   text="",
+                                   width = 300,
+                                   height = 300,
+                                   bg_color=bg,
+                                   fg_color=fg,
+                                   hover_color=hover)
+        audiobutton.pack(pady=100)
+
     introlabel.place_forget()
     spellingbtn.pack_forget()
     definbtn.pack_forget()
@@ -68,15 +87,12 @@ def SpellingbeePre():
 
     highscore.configure(text=f"High Score: {sbscore}")
 
-def SpellingBee():
-    pass
 
 introlabel = tk.CTkLabel(root, 
                             text="English Games",
                             font=(fontlabel),
                             bg_color=bg,
                             text_color=tc)
-#introlabel.pack()
 introlabel.place(relx = 0.5, rely=0.2, anchor = tk.CENTER)
 
 spellingbtn = tk.CTkButton(root, 
