@@ -24,6 +24,27 @@ tc = "#c9ada7"
 fg = "#4a4e69"
 hover = "#6b729c"
 
+# gets all word from wordslist
+with open("words.txt", "r") as file:
+    wordslist = []
+    for c in file:
+        wordslist.append(c)
+
+def getRandom1():
+    global randomword
+    randomword = wordslist[random.randint(0, len(wordslist))]
+
+
+def getRandom2():
+    global x1
+    global x2
+    global x3
+    global x4
+    x1 =  wordslist.pop(random.randint(0, len(wordslist)))
+    x2 =  wordslist.pop(random.randint(0, len(wordslist)))
+    x3 =  wordslist.pop(random.randint(0, len(wordslist)))
+    x4 =  wordslist.pop(random.randint(0, len(wordslist)))
+
 def highscore():
     global sbscore
     with open("highscores.json", "r") as file:
@@ -32,9 +53,10 @@ def highscore():
 highscore()
 
 def playAudio():
-    audio = gtts.gTTS(text="boat", slow=False)
+    audio = gtts.gTTS(text=randomword, slow=False)
     audio.save("audio.mp3")
     playsound.playsound("audio.mp3")
+
 
 # Spelling bee Pregame
 def SpellingbeePre():
