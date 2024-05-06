@@ -28,81 +28,150 @@ hover = "#6b729c"
 with open("words.txt", "r") as file:
     wordslist = []
     for c in file:
-        wordslist.append(c)
+        wordslist.append(c[0:len(c)-1])
+#
 
+# gets 1 random word spelling bee game
 def getRandom1():
     global randomword
-    randomword = wordslist[random.randint(0, len(wordslist))]
+    randomword = str(wordslist[random.randint(0, len(wordslist))]).lower()
+    print(randomword)
+#
 
-
+# gets 4 random words for definitions game
 def getRandom2():
     global x1
     global x2
     global x3
     global x4
-    x1 =  wordslist.pop(random.randint(0, len(wordslist)))
-    x2 =  wordslist.pop(random.randint(0, len(wordslist)))
-    x3 =  wordslist.pop(random.randint(0, len(wordslist)))
-    x4 =  wordslist.pop(random.randint(0, len(wordslist)))
+    x1 = wordslist.pop(random.randint(0, len(wordslist)))
+    x2 = wordslist.pop(random.randint(0, len(wordslist)))
+    x3 = wordslist.pop(random.randint(0, len(wordslist)))
+    x4 = wordslist.pop(random.randint(0, len(wordslist)))
+#
 
-def highscore():
+# reads highs score from file
+def highscorefunc():
     global sbscore
     with open("highscores.json", "r") as file:
         scores = json.load(file)
         sbscore = scores["scores"][0]["spellingbee"]
-highscore()
+        defscore = scores["scores"][0]["definitions"]
+highscorefunc()
 
+# plays audio file of random word
 def playAudio():
     audio = gtts.gTTS(text=randomword, slow=False)
     audio.save("audio.mp3")
     playsound.playsound("audio.mp3")
 
+def checkans():
+    global answer
+    global score
+    global correctlabel
+    global incorrectlabel
+    global questions
+    answer = textbox.get().lower()
+    print(f"the answer is {answer} and word is {randomword}")
+    if answer == randomword:
+        print("Correct")
+        score=+1
+        questions=+1
+        scorelabel.configure(text=f"Score: {score}")
+        correctlabel = tk.CTkLabel(root,
+                                   text="Correct!",
+                                   font=("Chilanka", 40, "bold"),
+                                   bg_color=bg,
+                                   text_color=tc)
+        correctlabel.pack(pady=5)
+        root.after(2000, SpellingBeeCorClear())
 
-# Spelling bee Pregame
-def SpellingbeePre():
-    # Spelling bee Ingame
-    def SpellingBee():
-        spelling.pack_forget()
-        start.pack_forget()
-        highscore.pack_forget()
+    else:
+
+        print("wrong")
+        incorrectlabel = tk.CTkLabel(root,
+                            text="Incorrect",
+                            font=("Chilanka", 40, "bold"),
+                            bg_color=bg,
+                            fg_color=fg,
+                            text_color=tc)
+        incorrectlabel.pack(pady=10)
+        questions =+ 1
+
+def SpellingBeeCorClear():
+    correctlabel.pack_forget()
+    SpellingBee()
+
+def HomePageClear():
+    spelling.pack_forget()
+    start.pack_forget()
+    highscore.pack_forget()
+
+score = 0
+questions = 0
+# Spelling bee Ingame
+def SpellingBee():
+    global textbox
+    global scorelabel
+    HomePageClear()
+    if questions != 10:
+        getRandom1()
+        
+
+        scorelabel = tk.CTkLabel(root,
+                                    text="Score: 0",
+                                    bg_color = bg,
+                                    text_color=tc,
+                                    font=("Chilanka", 30, "bold"))
+        scorelabel.place(relx= 0.865, rely=0.01)
 
         audioimage = ImageTk.PhotoImage(Image.open("audiobutton.png"))
         audiobutton = tk.CTkButton(root,
-                                   image=audioimage,
-                                   text="",
-                                   width = 300,
-                                   height = 300,
-                                   bg_color=bg,
-                                   fg_color=fg,
-                                   hover_color=hover,
-                                   command = playAudio)
+                                    image=audioimage,
+                                    text="",
+                                    width = 300,
+                                    height = 300,
+                                    bg_color=bg,
+                                    fg_color=fg,
+                                    hover_color=hover,
+                                    command = playAudio)
         audiobutton.pack(pady=(100,80))
 
         textbox = tk.CTkEntry(root,
-                              width = 700,
-                              height = 50,
-                              corner_radius=10,
-                              bg_color=bg)
+                                placeholder_text="Spell the word here..",
+                                font=fontbtn,
+                                width = 700,
+                                height = 50,
+                                corner_radius=10,
+                                bg_color=bg)
         textbox.pack()
 
         answerget = tk.CTkButton(root,
-                              text='Check',
-                              font=fontbtn,
-                              bg_color=bg,
-                              fg_color=fg,
-                              hover_color=hover,
-                              width = 200,
-                              height=50)
+                                text='Check',
+                                font=fontbtn,
+                                bg_color=bg,
+                                fg_color=fg,
+                                hover_color=hover,
+                                width = 200,
+                                height=50,
+                                command=checkans)
         answerget.pack(pady=30)
+    else:
+        print("finished")
+        
+#
 
-        textbox.get()
-
+def SpellingbeePre():
+# Spelling bee pregame
+    global spelling
+    global start
+    global highscore
 
     introlabel.place_forget()
     spellingbtn.pack_forget()
     definbtn.pack_forget()
     quitbtn.pack_forget()
-
+    
 
     spelling = tk.CTkLabel(root,
                             text="Spelling Bee",
@@ -134,7 +203,7 @@ def SpellingbeePre():
     highscore.pack(pady=50)
 
     highscore.configure(text=f"High Score: {sbscore}")
-
+#
 
 
 # Home Page
