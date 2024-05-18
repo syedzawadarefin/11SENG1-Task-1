@@ -6,6 +6,7 @@ import gtts
 import playsound
 import json
 from PIL import Image, ImageTk
+from time import sleep
 
 
 root = tk.CTk()
@@ -36,6 +37,8 @@ def getRandom1():
     global randomword
     randomword = str(wordslist[random.randint(0, len(wordslist))]).lower()
     print(randomword)
+    return randomword
+
 #
 
 # gets 4 random words for definitions game
@@ -72,23 +75,33 @@ def checkans():
     global incorrectlabel
     global questions
     answer = textbox.get().lower()
+
+
     print(f"the answer is {answer} and word is {randomword}")
     if answer == randomword:
         print("Correct")
         score=+1
         questions=+1
-        scorelabel.configure(text=f"Score: {score}")
         correctlabel = tk.CTkLabel(root,
                                    text="Correct!",
                                    font=("Chilanka", 40, "bold"),
                                    bg_color=bg,
                                    text_color=tc)
         correctlabel.pack(pady=5)
-        root.after(2000, SpellingBeeCorClear())
+        playsound.playsound("correct.wav")
+        sleep(0.5)
+        correctlabel.destroy()
+        textbox.destroy()
+        scorelabel.destroy()
+        audiobutton.destroy()
+        answerget.destroy()
+        SpellingBee()
+
 
     else:
 
         print("wrong")
+        questions =+ 1
         incorrectlabel = tk.CTkLabel(root,
                             text="Incorrect",
                             font=("Chilanka", 40, "bold"),
@@ -96,7 +109,16 @@ def checkans():
                             fg_color=fg,
                             text_color=tc)
         incorrectlabel.pack(pady=10)
-        questions =+ 1
+        playsound.playsound("incorrect.mp3")
+        sleep(0.5)
+        incorrectlabel.destroy()
+        correctlabel.destroy()
+        textbox.destroy()
+        scorelabel.destroy()
+        audiobutton.destroy()
+        answerget.destroy()
+        SpellingBee()
+        
 
 def SpellingBeeCorClear():
     correctlabel.pack_forget()
@@ -113,6 +135,8 @@ questions = 0
 def SpellingBee():
     global textbox
     global scorelabel
+    global audiobutton
+    global answerget
     HomePageClear()
     if questions != 10:
         getRandom1()
@@ -124,6 +148,7 @@ def SpellingBee():
                                     text_color=tc,
                                     font=("Chilanka", 30, "bold"))
         scorelabel.place(relx= 0.865, rely=0.01)
+        scorelabel.configure(text=f"Score: {score}")
 
         audioimage = ImageTk.PhotoImage(Image.open("audiobutton.png"))
         audiobutton = tk.CTkButton(root,
