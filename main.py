@@ -11,7 +11,7 @@ from time import sleep
 
 root = tk.CTk()
 root.geometry("1000x700")
-root.resizable(False, False)
+root.resiable(False, False)
 root.title("English Games")
 root.config(bg="#22223b")
 
@@ -206,7 +206,7 @@ def SpellingbeePre():
     spelling.pack(pady=(110,80))
 
 
-    start = tk.CTkButton(root, 
+    start = tk.CTkButton(root, ]
                          text="Play",
                          width=350,
                          height=125,
