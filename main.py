@@ -73,14 +73,55 @@ def playAudio():
     audio = AudioSegment.from_mp3("audio.mp3")
     play(audio)
 
-score = 0
-questions = 0
+def SpellingClear():
+    backbutton.destroy()
+    scorelabel.destroy()
+    audiobutton.destroy()
+    useranswer.destroy()
+    textbox.destroy()
+
+def SpellingPreClear():
+    spelling.pack_forget()
+    start.pack_forget()
+    highscore.pack_forget()
+    questionbox.pack_forget()
+    questionlabel.pack_forget()
+
+def postclear():
+    welldone.destroy()
+    scorelabel.destroy()
+    backbutton.destroy()
+    correctlabel.destroy()
+
+def quitgame():
+    print(PageStatus)
+    if PageStatus == "spellingbee": 
+        msg = CTkMessagebox(title="Are you sure you want to exit?", 
+                            message="If you quit now you will lose your progress", 
+                            icon="warning", 
+                            option_1="Cancel", 
+                            option_2="Yes")
+        if msg.get() == "Yes":
+            SpellingClear()
+            homepage()
+
+    if PageStatus == "post":
+        postclear()
+        homepage()
+
+    else: 
+        msg = CTkMessagebox(title="Warning!",
+                            message="Are you sure you want to quit?", 
+                            icon="warning",
+                            option_1="Cancel", 
+                            option_2="Yes")
+        if msg.get() == "Yes":
+            exit()
+
 # checks the answer inputted from the user and checks if its correct
 def checkans():
     global answer, score, correctlabel, questions
     answer = textbox.get().lower()
-
-    print(f"the answer is {answer} and word is {randomword}")
     if answer == randomword:
         print("Correct")
         score = score + 1
@@ -89,11 +130,7 @@ def checkans():
         print(questions)
         correctlabel.configure(text='Correct!', text_color="#09ff00", font=fontsmall)
         play(AudioSegment.from_wav("correct.wav"))
-        textbox.destroy()
-        
-        scorelabel.destroy()
-        audiobutton.destroy()
-        useranswer.destroy()
+        SpellingClear()
         SpellingBee()
 
     else:
@@ -103,11 +140,7 @@ def checkans():
         print(questions)
         correctlabel.configure(text="Not quite..", text_color="#b0b02c", font=fontsmall)
         play(AudioSegment.from_wav("incorrect.wav"))
-        
-        textbox.destroy()
-        scorelabel.destroy()
-        audiobutton.destroy()
-        useranswer.destroy()
+        SpellingClear()
         SpellingBee()
  
 
@@ -117,8 +150,9 @@ def checkans():
 # If you get a score that is above 50%, you are shown "Nearly there.."
 # If you get a score that is lower than 50%, you are shown "Better luck next time."
 def post():
-   print("post")
-   correctlabel.destroy()
+   global PageStatus, scorelabel, welldone
+   PageStatus = "post"
+   correctlabel.place_forget()
 
    if (score) > (90 / 100 * questions):
        welldone = tk.CTkLabel(root, 
@@ -126,9 +160,12 @@ def post():
                               text_color="#11d14a",
                               bg_color=bg,
                               font=fontlabel)
-       welldone.pack(pady=50)
+       welldone.pack(pady=100)
        scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct.)"))
+                                text=(f"{score} / {questionslimit} correct."),
+                                bg_color=bg,
+                                font=fontsmall,
+                                text_color="white")
        scorelabel.pack(pady=100)
    elif (score) > (75 / 100 * questions): 
        welldone = tk.CTkLabel(root, 
@@ -136,9 +173,12 @@ def post():
                               text_color="#5bc916",
                               bg_color=bg,
                               font=fontlabel)
-       welldone.pack(pady=50)
+       welldone.pack(pady=100)
        scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct.)"))
+                                text=(f"{score} / {questionslimit} correct."),
+                                bg_color=bg,
+                                font=fontsmall,
+                                text_color="white")
        scorelabel.pack(pady=100)
    elif (score) > (50 / 100 * questions):
        welldone = tk.CTkLabel(root,
@@ -146,42 +186,47 @@ def post():
                               text_color="#c4d10f",
                               bg_color=bg,
                               font=fontlabel)
-       welldone.pack(pady=50)
+       welldone.pack(pady=100)
        scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct.)"))
+                                text=(f"{score} / {questionslimit} correct."),
+                                bg_color=bg,
+                                font=fontsmall,
+                                text_color="white")
        scorelabel.pack(pady=100)
    else:
        welldone = tk.CTkLabel(root,
                               text="Better luck next time.",
                               text_color="#ba720d",
                               bg_color=bg,
-                              font=fontlabel)
-       welldone.pack(pady=50)
+                              font=fontbtn)
+       welldone.pack(pady=100)
        scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct.)"))
+                                text=(f"{score} / {questionslimit} correct."),
+                                bg_color=bg,
+                                font=fontsmall,
+                                text_color="white")
        scorelabel.pack(pady=100)
 
 
-def SpellingBeeCorClear():
-    correctlabel.pack_forget()
-    SpellingBee()
-
-def SpellingPreClear():
-    spelling.pack_forget()
-    start.pack_forget()
-    highscore.pack_forget()
-    questionbox.pack_forget()
-    questionlabel.pack_forget()
-
 # Spelling bee Ingame
 def SpellingBee():
-    global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit
+    global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus, backbutton
+    PageStatus = "spellingbee"      
     SpellingPreClear()
     try:
         questionslimit = int(questionbox.get())
     except:
         CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
         SpellingbeePre()
+
+    backbutton = tk.CTkButton(root,
+                              text="Back",
+                              font=fontbtn,
+                              hover=hover,
+                              bg_color=bg,
+                              fg_color=fg,
+                              command=quitgame)
+    backbutton.place(relx=0.02, rely=0.05, anchor=tk.W)
 
     if questions != questionslimit:
         getRandom1()
@@ -296,52 +341,57 @@ def SpellingbeePre():
 
 
 # Home Page
-introlabel = tk.CTkLabel(root, 
-                            text="English Games",
-                            font=(fontlabel),
-                            bg_color=bg,
-                            text_color=tc)
-introlabel.place(relx = 0.5, rely=0.2, anchor = tk.CENTER)
+def homepage():
+    global introlabel, spellingbtn, definbtn, quitbtn, score, questions
+    score=0
+    questions=0
+    introlabel = tk.CTkLabel(root, 
+                                text="English Games",
+                                font=(fontlabel),
+                                bg_color=bg,
+                                text_color=tc)
+    introlabel.place(relx = 0.5, rely=0.2, anchor = tk.CENTER)
 
-spellingbtn = tk.CTkButton(root, 
-                            text="Spelling Bee", 
-                            width=350, 
-                            height=125, 
-                            font=(fontbtn),
-                            fg_color=(fg),
-                            hover_color=hover,
-                            corner_radius=7,
-                            border_width=5,
-                            border_color="white",
-                            bg_color=bg,
-                            command=SpellingbeePre)
-spellingbtn.pack(pady=(250,0))
+    spellingbtn = tk.CTkButton(root, 
+                                text="Spelling Bee", 
+                                width=350, 
+                                height=125, 
+                                font=(fontbtn),
+                                fg_color=(fg),
+                                hover_color=hover,
+                                corner_radius=7,
+                                border_width=5,
+                                border_color="white",
+                                bg_color=bg,
+                                command=SpellingbeePre)
+    spellingbtn.pack(pady=(250,0))
 
-definbtn = tk.CTkButton(root, 
-                            text="Definitions", 
-                            width=350, 
-                            height=125, 
-                            font=(fontbtn),
-                            fg_color=fg,
-                            hover_color=hover,
-                            corner_radius=7,
-                            border_width=5,
-                            border_color="white",
-                            bg_color=bg)
-definbtn.pack(pady=(35,0))
+    definbtn = tk.CTkButton(root, 
+                                text="Definitions", 
+                                width=350, 
+                                height=125, 
+                                font=(fontbtn),
+                                fg_color=fg,
+                                hover_color=hover,
+                                corner_radius=7,
+                                border_width=5,
+                                border_color="white",
+                                bg_color=bg)
+    definbtn.pack(pady=(35,0))
 
-quitbtn = tk.CTkButton(root, 
-                            text="Quit", 
-                            width=150, 
-                            height=40, 
-                            font=(fontbtn),
-                            fg_color=fg,
-                            hover_color=hover,
-                            corner_radius=5,
-                            border_width=5,
-                            border_color="white",
-                            bg_color=bg)
-quitbtn.pack(pady=(35,0))
-
+    quitbtn = tk.CTkButton(root, 
+                                text="Quit", 
+                                width=150, 
+                                height=40, 
+                                font=(fontbtn),
+                                fg_color=fg,
+                                hover_color=hover,
+                                corner_radius=5,
+                                border_width=5,
+                                border_color="white",
+                                bg_color=bg,
+                                command=quitgame)
+    quitbtn.pack(pady=(35,0))
+homepage()
 
 root.mainloop()
