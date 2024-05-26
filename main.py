@@ -62,11 +62,11 @@ def getRandom2():
 #
 
 
-# plays audio file of random word
+# generates audio file for the random word
 def getAudio():
     audio = gtts.gTTS(text=randomword, slow=False)
     audio.save("audio.mp3")
-
+# plays the audio file of randomly generated word
 def playAudio():
     global audio
     # playsound("audio.mp3")
@@ -75,50 +75,35 @@ def playAudio():
 
 score = 0
 questions = 0
+# checks the answer inputted from the user and checks if its correct
 def checkans():
-    global answer, score, correctlabel, incorrectlabel, questions
+    global answer, score, correctlabel, questions
     answer = textbox.get().lower()
 
     print(f"the answer is {answer} and word is {randomword}")
     if answer == randomword:
         print("Correct")
         score = score + 1
-        print(score)
         questions = questions + 1
+        print(score)
         print(questions)
-        correctlabel = tk.CTkLabel(root,
-                                   text="Correct!",
-                                   font=("Chilanka", 40, "bold"),
-                                   bg_color=bg,
-                                   text_color=tc)
-        correctlabel.pack(pady=5)
+        correctlabel.configure(text='Correct!', text_color="#09ff00", font=fontsmall)
         play(AudioSegment.from_wav("correct.wav"))
-        # sleep(0.5)
-        correctlabel.destroy()
         textbox.destroy()
+        
         scorelabel.destroy()
         audiobutton.destroy()
         useranswer.destroy()
         SpellingBee()
 
-
     else:
-
         print("wrong")
         questions = questions + 1
         print(score)
         print(questions)
-        incorrectlabel = tk.CTkLabel(root,
-                            text="Incorrect",
-                            font=("Chilanka", 40, "bold"),
-                            bg_color=bg,
-                            fg_color=fg,
-                            text_color=tc)
-        incorrectlabel.pack(pady=10)
+        correctlabel.configure(text="Not quite..", text_color="#b0b02c", font=fontsmall)
         play(AudioSegment.from_wav("incorrect.wav"))
-        sleep(0.5)
-        incorrectlabel.destroy()
-        correctlabel.destroy()
+        
         textbox.destroy()
         scorelabel.destroy()
         audiobutton.destroy()
@@ -126,11 +111,62 @@ def checkans():
         SpellingBee()
  
 
+# This whole function shows a different message after you finish a game with a different message depending on your score.
+# If you get a score that is above 90%, you are shown "Amazing!!"
+# If you get a score that is above 75%, you are shown "Nice Job!"
+# If you get a score that is above 50%, you are shown "Nearly there.."
+# If you get a score that is lower than 50%, you are shown "Better luck next time."
+def post():
+   print("post")
+   correctlabel.destroy()
+
+   if (score) > (90 / 100 * questions):
+       welldone = tk.CTkLabel(root, 
+                              text="Amazing!!",
+                              text_color="#11d14a",
+                              bg_color=bg,
+                              font=fontlabel)
+       welldone.pack(pady=50)
+       scorelabel = tk.CTkLabel(root, 
+                                text=(f"{score} / {questionslimit} correct.)"))
+       scorelabel.pack(pady=100)
+   elif (score) > (75 / 100 * questions): 
+       welldone = tk.CTkLabel(root, 
+                              text="Nice job!",
+                              text_color="#5bc916",
+                              bg_color=bg,
+                              font=fontlabel)
+       welldone.pack(pady=50)
+       scorelabel = tk.CTkLabel(root, 
+                                text=(f"{score} / {questionslimit} correct.)"))
+       scorelabel.pack(pady=100)
+   elif (score) > (50 / 100 * questions):
+       welldone = tk.CTkLabel(root,
+                              text="Nearly there..",
+                              text_color="#c4d10f",
+                              bg_color=bg,
+                              font=fontlabel)
+       welldone.pack(pady=50)
+       scorelabel = tk.CTkLabel(root, 
+                                text=(f"{score} / {questionslimit} correct.)"))
+       scorelabel.pack(pady=100)
+   else:
+       welldone = tk.CTkLabel(root,
+                              text="Better luck next time.",
+                              text_color="#ba720d",
+                              bg_color=bg,
+                              font=fontlabel)
+       welldone.pack(pady=50)
+       scorelabel = tk.CTkLabel(root, 
+                                text=(f"{score} / {questionslimit} correct.)"))
+       scorelabel.pack(pady=100)
+
+
 def SpellingBeeCorClear():
     correctlabel.pack_forget()
     SpellingBee()
 
-def SpellingHomePageClear():
+def SpellingPreClear():
     spelling.pack_forget()
     start.pack_forget()
     highscore.pack_forget()
@@ -139,15 +175,14 @@ def SpellingHomePageClear():
 
 # Spelling bee Ingame
 def SpellingBee():
-    global textbox, scorelabel, audiobutton, useranswer
-    SpellingHomePageClear()
+    global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit
+    SpellingPreClear()
     try:
         questionslimit = int(questionbox.get())
     except:
         CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
         SpellingbeePre()
 
-        
     if questions != questionslimit:
         getRandom1()
         
@@ -191,10 +226,16 @@ def SpellingBee():
                                 height=50,
                                 command=checkans)
         useranswer.pack(pady=30)
+
+        correctlabel = tk.CTkLabel(root,
+                                   text="",
+                                   bg_color=bg)
+        correctlabel.place(relx=0.5, rely=0.95, anchor=tk.CENTER)
         
     else:
         print("finished")
         print(f"{score} / {questionslimit}")
+        post()
 #
 
 def SpellingbeePre():
@@ -224,7 +265,6 @@ def SpellingbeePre():
     questionbox = tk.CTkEntry(root,
                               font=(fontbtn),
                               bg_color=(bg),
-                              text_color=tc,
                               height=50,
                               width=100,)
     questionbox.pack(pady=10)
