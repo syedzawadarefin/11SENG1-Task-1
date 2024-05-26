@@ -8,6 +8,7 @@ from pydub.playback import play
 import json
 from PIL import Image, ImageTk
 from time import sleep
+from CTkMessagebox import CTkMessagebox
 
 
 root = tk.CTk()
@@ -18,6 +19,7 @@ root.config(bg="#22223b")
 
 fontlabel = ("Chilanka", 80, "bold")
 fontbtn = ("Chilanka", 40, "bold")
+fontsmall = ("Chilanka", 30, "bold")
 prefontbtn = "Chilanka", 70, "bold"
 prelabel = ("Chilanka", 100, "bold")
 
@@ -91,7 +93,7 @@ def checkans():
                                    text_color=tc)
         correctlabel.pack(pady=5)
         play(AudioSegment.from_wav("correct.wav"))
-        sleep(0.5)
+        # sleep(0.5)
         correctlabel.destroy()
         textbox.destroy()
         scorelabel.destroy()
@@ -128,16 +130,25 @@ def SpellingBeeCorClear():
     correctlabel.pack_forget()
     SpellingBee()
 
-def HomePageClear():
+def SpellingHomePageClear():
     spelling.pack_forget()
     start.pack_forget()
     highscore.pack_forget()
+    questionbox.pack_forget()
+    questionlabel.pack_forget()
 
 # Spelling bee Ingame
 def SpellingBee():
     global textbox, scorelabel, audiobutton, useranswer
-    HomePageClear()
-    if questions != 10:
+    SpellingHomePageClear()
+    try:
+        questionslimit = int(questionbox.get())
+    except:
+        CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
+        SpellingbeePre()
+
+        
+    if questions != questionslimit:
         getRandom1()
         
 
@@ -183,12 +194,12 @@ def SpellingBee():
         
     else:
         print("finished")
-        print(f"{score} / 10")
+        print(f"{score} / {questionslimit}")
 #
 
 def SpellingbeePre():
 # Spelling bee pregame
-    global spelling, start, highscore
+    global spelling, start, highscore, questionbox, questionlabel
 
     introlabel.place_forget()
     spellingbtn.pack_forget()
@@ -201,7 +212,22 @@ def SpellingbeePre():
                             font=(prelabel),
                             bg_color=(bg),
                             text_color=tc)
-    spelling.pack(pady=(110,80))
+    spelling.pack(pady=(90,80))
+
+    questionlabel = tk.CTkLabel(root,
+                                text="How many questions?",
+                                font=fontsmall,
+                                bg_color=bg,
+                                text_color=tc)
+    questionlabel.pack(pady=(0,1))
+
+    questionbox = tk.CTkEntry(root,
+                              font=(fontbtn),
+                              bg_color=(bg),
+                              text_color=tc,
+                              height=50,
+                              width=100,)
+    questionbox.pack(pady=10)
 
 
     start = tk.CTkButton(root,
@@ -216,7 +242,7 @@ def SpellingbeePre():
                          border_width=5,
                          border_color="white",
                          command=SpellingBee)
-    start.pack()
+    start.pack(pady=(30,0))
     
     highscore = tk.CTkLabel(root,
                             text="2",
