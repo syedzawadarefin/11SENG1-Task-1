@@ -17,11 +17,11 @@ root.resizable(False, False)
 root.title("English Games")
 root.config(bg="#22223b")
 
-fontlabel = ("Chilanka", 80, "bold")
-fontbtn = ("Chilanka", 40, "bold")
-fontsmall = ("Chilanka", 30, "bold")
-prefontbtn = "Chilanka", 70, "bold"
-prelabel = ("Chilanka", 100, "bold")
+fontlabel = ("Cascadia Mono", 80, "bold")
+fontbtn = ("Cascadia Mono", 40, "bold")
+fontsmall = ("Cascadia Mono", 30, "bold")
+prefontbtn = ("Cascadia Mono", 70, "bold")
+prelabel = ("Cascadia Mono", 100, "bold")
 
 bg = "#22223b"
 tc = "#c9ada7"
