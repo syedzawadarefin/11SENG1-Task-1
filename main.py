@@ -152,7 +152,14 @@ def checkans():
 def post():
    global PageStatus, scorelabel, welldone
    PageStatus = "post"
-   correctlabel.place_forget()
+       
+
+   scorelabel = tk.CTkLabel(root, 
+                            text=(f"{score} / {questionslimit} correct."),
+                            bg_color=bg,
+                            font=fontsmall,
+                            text_color="white")
+   scorelabel.place(rely=0.55, relx=0.5, anchor=tk.CENTER)
 
    if (score) > (90 / 100 * questions):
        welldone = tk.CTkLabel(root, 
@@ -160,52 +167,32 @@ def post():
                               text_color="#11d14a",
                               bg_color=bg,
                               font=fontlabel)
-       welldone.pack(pady=100)
-       scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct."),
-                                bg_color=bg,
-                                font=fontsmall,
-                                text_color="white")
-       scorelabel.pack(pady=100)
+       welldone.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+
    elif (score) > (75 / 100 * questions): 
        welldone = tk.CTkLabel(root, 
                               text="Nice job!",
                               text_color="#5bc916",
                               bg_color=bg,
                               font=fontlabel)
-       welldone.pack(pady=100)
-       scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct."),
-                                bg_color=bg,
-                                font=fontsmall,
-                                text_color="white")
-       scorelabel.pack(pady=100)
+       welldone.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+
    elif (score) > (50 / 100 * questions):
        welldone = tk.CTkLabel(root,
                               text="Nearly there..",
                               text_color="#c4d10f",
                               bg_color=bg,
                               font=fontlabel)
-       welldone.pack(pady=100)
-       scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct."),
-                                bg_color=bg,
-                                font=fontsmall,
-                                text_color="white")
-       scorelabel.pack(pady=100)
+       welldone.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+
    else:
        welldone = tk.CTkLabel(root,
                               text="Better luck next time.",
                               text_color="#ba720d",
                               bg_color=bg,
                               font=fontbtn)
-       welldone.pack(pady=100)
-       scorelabel = tk.CTkLabel(root, 
-                                text=(f"{score} / {questionslimit} correct."),
-                                bg_color=bg,
-                                font=fontsmall,
-                                text_color="white")
-       scorelabel.pack(pady=100)
+       welldone.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
+
 
 
 # Spelling bee Ingame
@@ -213,6 +200,7 @@ def SpellingBee():
     global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus, backbutton
     PageStatus = "spellingbee"      
     SpellingPreClear()
+
     try:
         questionslimit = int(questionbox.get())
     except:
@@ -342,9 +330,10 @@ def SpellingbeePre():
 
 # Home Page
 def homepage():
-    global introlabel, spellingbtn, definbtn, quitbtn, score, questions
+    global introlabel, spellingbtn, definbtn, quitbtn, score, questions, PageStatus
     score=0
     questions=0
+    PageStatus = "home"
     introlabel = tk.CTkLabel(root, 
                                 text="English Games",
                                 font=(fontlabel),
