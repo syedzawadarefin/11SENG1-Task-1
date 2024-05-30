@@ -28,9 +28,9 @@ hover = "#6b729c"
 # are not created when the game generates new questions, as if it were to be inside the main game's page, it would 
 # be created, but there would be no way to remove this element without the user never seeing it.
 correctlabel = tk.CTkLabel(root,
-                            text="",
-                            bg_color=bg, 
-                            font=fontsmall)
+                           text="",
+                           bg_color=bg,
+                           font=fontsmall)
 correctlabel.place(relx=0.5, rely=0.95, anchor=tk.CENTER)
 
 # gets all word from wordslist
