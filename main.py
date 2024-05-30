@@ -51,13 +51,6 @@ with open("words.txt", "r") as file:
         wordslist.append(c[0:len(c)-1])
 #
 
-# reads high score from file
-def highscorefunc():
-    global sbscore
-    with open("highscores.json", "r") as file:
-        scores = json.load(file)
-        sbscore = scores["scores"][0]["spellingbee"]
-highscorefunc()
 
 # generates one random word from the list of available words
 def getRandom():
@@ -87,7 +80,6 @@ def SpellingClear():
 def PreGameClear():
     spellinglabel.destroy()
     start.destroy()
-    highscore.destroy()
     questionbox.pack_forget()
     questionlabel.destroy()
     backbutton.destroy()
@@ -212,15 +204,16 @@ def SpellingBee():
     global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus
     PageStatus = "spellingbee"      
     PreGameClear()
-    try:
-        questionslimit = int(questionbox.get())
-        print(questionslimit)
-        questionbox.destroy()
+    if questionslimit == None:
+        try:
+            questionslimit = int(questionbox.get())
+            print(questionslimit)
+            questionbox.destroy()
 
-    except:
-        CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
-        PreGame()
-        return
+        except:
+            CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
+            PreGame()
+            return
 
 
     if questions != questionslimit:
@@ -285,7 +278,7 @@ def SpellingBee():
 
 def PreGame():
 # Spelling bee pregame
-    global spellinglabel, start, highscore, questionbox, questionlabel, PageStatus, backbutton
+    global spellinglabel, start, questionbox, questionlabel, PageStatus, backbutton
 
     introlabel.place_forget()
     spellingbtn.pack_forget()
@@ -294,17 +287,7 @@ def PreGame():
     PageStatus="pre"
     print(PageStatus)
 
-    backbutton = tk.CTkButton(root,
-                              text="Back",
-                              font=fontbtn,
-                              hover=hover,
-                              bg_color=bg,
-                              fg_color=fg,
-                              command=quitgame)
-    backbutton.place(relx=0.02, rely=0.05, anchor=tk.W)
-    
 
-    spellinglabel = tk.CTkLabel(root,
     print(questionslimit)
     PageStatus="pre"
     print(PageStatus)
@@ -354,15 +337,6 @@ def PreGame():
                          border_color="white",
                          command=SpellingBee)
     start.pack(pady=(30,0))
-    
-    highscore = tk.CTkLabel(root,
-                            text="2",
-                            font=("Chilanka", 30, "bold"),
-                            bg_color=bg,
-                            text_color=tc)
-    highscore.pack(pady=50)
-
-    highscore.configure(text=f"High Score: {sbscore}")
 #
 
 
