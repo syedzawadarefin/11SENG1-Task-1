@@ -3,11 +3,9 @@ import random
 import gtts
 from pydub import AudioSegment
 from pydub.playback import play
-import json
 from PIL import Image, ImageTk
 from time import sleep
 from CTkMessagebox import CTkMessagebox
-
 
 root = tk.CTk()
 root.geometry("1000x700")
@@ -35,22 +33,12 @@ correctlabel = tk.CTkLabel(root,
                             font=fontsmall)
 correctlabel.place(relx=0.5, rely=0.95, anchor=tk.CENTER)
 
-# the "correct!" / "not quite..." text is initialised here because it ensures duplicates of this element
-# are not created when the game generates new questions, as if it were to be inside the main game's page, it would 
-# be created, but there would be no way to remove this element without the user never seeing it.
-correctlabel = tk.CTkLabel(root,
-                            text="",
-                            bg_color=bg, 
-                            font=fontsmall)
-correctlabel.place(relx=0.5, rely=0.95, anchor=tk.CENTER)
-
 # gets all word from wordslist
 with open("words.txt", "r") as file:
     wordslist = []
     for c in file:
-        wordslist.append(c[0:len(c)-1])
+        wordslist.append(c[0:len(c)-1]) # the string 
 #
-
 
 # generates one random word from the list of available words
 def getRandom():
@@ -59,7 +47,6 @@ def getRandom():
     print(randomword)
     getAudio()
 #
-
 
 # generates audio file for the random word
 def getAudio():
@@ -76,6 +63,7 @@ def SpellingClear():
     audiobutton.destroy()
     useranswer.destroy()
     textbox.destroy()
+    backbutton.destroy()
 
 def PreGameClear():
     spellinglabel.destroy()
@@ -88,7 +76,6 @@ def postclear():
     welldone.destroy()
     scorelabel.destroy()
     backbutton.destroy()
-    correctlabel.destroy()
 
 def quitgame():
     if PageStatus == "spellingbee": 
@@ -100,8 +87,8 @@ def quitgame():
         if msg.get() == "Yes":
             SpellingClear()
             correctlabel.configure(text="")
-            backbutton.destroy()
             homepage()
+            return
 
     elif PageStatus == "post":
         postclear()
@@ -126,18 +113,18 @@ def checkans():
     global answer, score, correctlabel, questions
     answer = textbox.get().lower()
     if answer == randomword:
-        print("Correct")
         score = score + 1
         questions = questions + 1
-        print(score)
-        print(questions)
+        # print("Correct")
+        # print(score)
+        # print(questions)
         correctlabel.configure(text='Correct!', text_color="#09ff00")
         play(AudioSegment.from_wav("correct.wav"))
         SpellingClear()
         SpellingBee()
 
     else:
-        print("wrong")
+        # print("wrong")
         questions = questions + 1
         print(score)
         print(questions)
@@ -146,18 +133,23 @@ def checkans():
         SpellingClear()
         SpellingBee()
  
-
 # This whole function shows a different message after you finish a game with a different message depending on your score.
 # If you get a score that is above 90%, you are shown "Amazing!!"
 # If you get a score that is above 75%, you are shown "Nice Job!"
 # If you get a score that is above 50%, you are shown "Nearly there.."
 # If you get a score that is lower than 50%, you are shown "Better luck next time."
 def post():
-   global PageStatus, scorelabel, welldone
+   global PageStatus, scorelabel, welldone, backbutton
    PageStatus = "post"
    correctlabel.configure(text="")
-       
-
+   backbutton = tk.CTkButton(root,
+                            text="Back",
+                            font=fontbtn,
+                            hover=hover,
+                            bg_color=bg,
+                            fg_color=fg,
+                            command=quitgame)
+   backbutton.place(relx=0.02, rely=0.05, anchor=tk.W)
    scorelabel = tk.CTkLabel(root, 
                             text=(f"{score} / {questionslimit} correct."),
                             bg_color=bg,
@@ -197,18 +189,22 @@ def post():
                               font=fontbtn)
        welldone.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
 
-
-
 # Spelling bee Ingame
 def SpellingBee():
-    global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus
-    PageStatus = "spellingbee"      
-    PreGameClear()
+    global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus, backbutton
+    PageStatus = "spellingbee"
     if questionslimit == None:
+        PreGameClear()
         try:
             questionslimit = int(questionbox.get())
-            print(questionslimit)
-            questionbox.destroy()
+            if questionslimit > 0:
+                questionbox.destroy()
+            else: 
+                CTkMessagebox(title="Error", message="You cannot have negative questions!", icon="cancel")
+                questionslimit = None
+                PreGame()
+                return
+
 
         except:
             CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
@@ -271,9 +267,7 @@ def SpellingBee():
     else:
         print("finished")
         print(f"{score} / {questionslimit}")
-        post()
-
-    
+        post()  
 #
 
 def PreGame():
@@ -283,14 +277,8 @@ def PreGame():
     introlabel.place_forget()
     spellingbtn.pack_forget()
     quitbtn.pack_forget()
-    print(questionslimit)
-    PageStatus="pre"
-    print(PageStatus)
 
-
-    print(questionslimit)
     PageStatus="pre"
-    print(PageStatus)
 
     backbutton = tk.CTkButton(root,
                               text="Back",
@@ -343,12 +331,11 @@ def PreGame():
 # Home Page
 def homepage():
     global introlabel, spellingbtn, quitbtn, score, questions, PageStatus, answer, questionslimit
-    score=0
-    questions=0
+    score = 0
+    questions = 0
     questionslimit = None
     answer = None
     PageStatus = "home"
-    print(PageStatus)
     introlabel = tk.CTkLabel(root, 
                                 text="Spelling Bee",
                                 font=(fontlabel),
@@ -384,5 +371,6 @@ def homepage():
                                 command=quitgame)
     quitbtn.pack(pady=(160,0))
 homepage()
+#
 
 root.mainloop()
