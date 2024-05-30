@@ -50,21 +50,12 @@ def highscorefunc():
         sbscore = scores["scores"][0]["spellingbee"]
 highscorefunc()
 
-# gets 1 random word spellinglabel bee game
-def getRandom1():
+# generates one random word from the list of available words
+def getRandom():
     global randomword
     randomword = str(wordslist[random.randint(0, len(wordslist))]).lower()
     print(randomword)
     getAudio()
-#
-
-# gets 4 random words for definitions game
-def getRandom2():
-    global word1, word2, word3, word4
-    word1 = wordslist.pop(random.randint(0, len(wordslist)))
-    word2 = wordslist.pop(random.randint(0, len(wordslist)))
-    word3 = wordslist.pop(random.randint(0, len(wordslist)))
-    word4 = wordslist.pop(random.randint(0, len(wordslist)))
 #
 
 
@@ -212,79 +203,74 @@ def SpellingBee():
     global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus
     PageStatus = "spellingbee"      
     PreGameClear()
-    try:
-        if questionslimit == None:
-            try:
-                questionslimit = int(questionbox.get())
-                print(questionslimit)
-                questionbox.destroy()
+    if questionslimit == None:
+        try:
+            questionslimit = int(questionbox.get())
+            print(questionslimit)
+            questionbox.destroy()
 
-            except:
-                CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
-                print("error")
-                PreGame()
-                return
+        except:
+            CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
+            PreGame()
+            return
 
-    except: 
-        pass
 
-    else:
-        if questions != questionslimit:
-            getRandom1()
-            
-            backbutton = tk.CTkButton(root,
-                                    text="Back",
-                                    font=fontbtn,
-                                    hover=hover,
-                                    bg_color=bg,
-                                    fg_color=fg,
-                                    command=quitgame)
-            backbutton.place(relx=0.02, rely=0.05, anchor=tk.W)
+    if questions != questionslimit:
+        getRandom()
+        
+        backbutton = tk.CTkButton(root,
+                                text="Back",
+                                font=fontbtn,
+                                hover=hover,
+                                bg_color=bg,
+                                fg_color=fg,
+                                command=quitgame)
+        backbutton.place(relx=0.02, rely=0.05, anchor=tk.W)
 
-            scorelabel = tk.CTkLabel(root,
-                                        text="",
-                                        bg_color = bg,
-                                        text_color=tc,
-                                        font=("Chilanka", 30, "bold"))
-            scorelabel.place(relx= 0.858, rely=0.01)
-            scorelabel.configure(text=f"Score: {score}")
+        scorelabel = tk.CTkLabel(root,
+                                    text="",
+                                    bg_color = bg,
+                                    text_color=tc,
+                                    font=("Chilanka", 30, "bold"))
+        scorelabel.place(relx= 0.858, rely=0.01)
+        scorelabel.configure(text=f"Score: {score}")
 
-            audioimage = ImageTk.PhotoImage(Image.open("audiobutton.png"))
-            audiobutton = tk.CTkButton(root,
-                                        image=audioimage,
-                                        text="",
-                                        width = 300,
-                                        height = 300,
-                                        bg_color=bg,
-                                        fg_color=fg,
-                                        hover_color=hover,
-                                        command = playAudio)
-            audiobutton.pack(pady=(100,80))
-
-            textbox = tk.CTkEntry(root,
-                                    placeholder_text="Spell the word here..",
-                                    font=fontbtn,
-                                    width = 700,
-                                    height = 50,
-                                    corner_radius=10,
-                                    bg_color=bg)
-            textbox.pack()
-
-            useranswer = tk.CTkButton(root,
-                                    text='Check',
-                                    font=fontbtn,
+        audioimage = ImageTk.PhotoImage(Image.open("audiobutton.png"))
+        audiobutton = tk.CTkButton(root,
+                                    image=audioimage,
+                                    text="",
+                                    width = 300,
+                                    height = 300,
                                     bg_color=bg,
                                     fg_color=fg,
                                     hover_color=hover,
-                                    width = 200,
-                                    height=50,
-                                    command=checkans)
-            useranswer.pack(pady=30)
+                                    command = playAudio)
+        audiobutton.pack(pady=(100,80))
 
-        else:
-            print("finished")
-            print(f"{score} / {questionslimit}")
-            post()
+        textbox = tk.CTkEntry(root,
+                                placeholder_text="Spell the word here..",
+                                font=fontbtn,
+                                width = 700,
+                                height = 50,
+                                corner_radius=10,
+                                bg_color=bg)
+        textbox.pack()
+
+        useranswer = tk.CTkButton(root,
+                                text='Check',
+                                font=fontbtn,
+                                bg_color=bg,
+                                fg_color=fg,
+                                hover_color=hover,
+                                width = 200,
+                                height=50,
+                                command=checkans)
+        useranswer.pack(pady=30)
+
+    else:
+        print("finished")
+        print(f"{score} / {questionslimit}")
+        post()
 
     
 #
