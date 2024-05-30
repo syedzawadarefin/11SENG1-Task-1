@@ -35,6 +35,15 @@ correctlabel = tk.CTkLabel(root,
                             font=fontsmall)
 correctlabel.place(relx=0.5, rely=0.95, anchor=tk.CENTER)
 
+# the "correct!" / "not quite..." text is initialised here because it ensures duplicates of this element
+# are not created when the game generates new questions, as if it were to be inside the main game's page, it would 
+# be created, but there would be no way to remove this element without the user never seeing it.
+correctlabel = tk.CTkLabel(root,
+                            text="",
+                            bg_color=bg, 
+                            font=fontsmall)
+correctlabel.place(relx=0.5, rely=0.95, anchor=tk.CENTER)
+
 # gets all word from wordslist
 with open("words.txt", "r") as file:
     wordslist = []
@@ -203,16 +212,15 @@ def SpellingBee():
     global textbox, scorelabel, audiobutton, useranswer, correctlabel, questionslimit, PageStatus
     PageStatus = "spellingbee"      
     PreGameClear()
-    if questionslimit == None:
-        try:
-            questionslimit = int(questionbox.get())
-            print(questionslimit)
-            questionbox.destroy()
+    try:
+        questionslimit = int(questionbox.get())
+        print(questionslimit)
+        questionbox.destroy()
 
-        except:
-            CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
-            PreGame()
-            return
+    except:
+        CTkMessagebox(title="Error", message="Please enter a number.", icon="cancel")
+        PreGame()
+        return
 
 
     if questions != questionslimit:
@@ -282,6 +290,21 @@ def PreGame():
     introlabel.place_forget()
     spellingbtn.pack_forget()
     quitbtn.pack_forget()
+    print(questionslimit)
+    PageStatus="pre"
+    print(PageStatus)
+
+    backbutton = tk.CTkButton(root,
+                              text="Back",
+                              font=fontbtn,
+                              hover=hover,
+                              bg_color=bg,
+                              fg_color=fg,
+                              command=quitgame)
+    backbutton.place(relx=0.02, rely=0.05, anchor=tk.W)
+    
+
+    spellinglabel = tk.CTkLabel(root,
     print(questionslimit)
     PageStatus="pre"
     print(PageStatus)
