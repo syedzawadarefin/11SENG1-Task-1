@@ -55,6 +55,7 @@ def getAudio():
 # plays the audio file of randomly generated word
 def playAudio():
     global audio
+    AudioSegment.converter = "./venv/Scripts/ffmpeg"
     audio = AudioSegment.from_mp3("audio.mp3")
     play(audio)
 
