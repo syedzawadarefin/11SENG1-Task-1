@@ -113,7 +113,7 @@ def quitgame():
 def checkans():
     global answer, score, correctlabel, questions
     answer = textbox.get().lower()
-    if answer == randomword:
+    if answer.replace(" ", "") == randomword:
         score = score + 1
         questions = questions + 1
         # print("Correct")
