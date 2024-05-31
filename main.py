@@ -11,7 +11,7 @@ from CTkMessagebox import CTkMessagebox
 root = tk.CTk()
 root.geometry("1000x700")
 root.resizable(False, False)
-root.title("English Games")
+root.title("Spelling Bee")
 root.config(bg="#22223b")
 
 fontlabel = ("Cascadia Mono", 80, "bold")
